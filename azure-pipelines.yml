@@ -1,0 +1,28 @@
+# HTML
+# Archive your static HTML project and save it with the build record.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(build.sourcesDirectory)'
+    includeRootFolder: false
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'devops'
+    scannerMode: 'MSBuild'
+    projectKey: 'sqa_2cc9eec94fec692108d4021bae1e7de31da76980'
+    projectName: 'CI_CD_PIPELINE_01'
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
+
+
+
